@@ -1,4 +1,4 @@
-import { StyleSheet, View, Text, ImageBackground } from 'react-native';
+import { StyleSheet, View, Text, ImageBackground, TouchableOpacity } from 'react-native';
 import { useEffect, useState } from 'react';
 import { Header } from '../../common/components/Header/HeaderPageView';
 import { useNavigation } from '@react-navigation/native';
@@ -34,15 +34,13 @@ export function ProductList() {
   }, [search]);
   return (
     <>
-      <Header items={'0'} page={'home'} navigation={navigation} />
+      <Header page={'home'} navigation={navigation} />
       <View style={styles.container}>
         <SearchBar
           placeholder="Filter item..."
           lightTheme={true}
           value={search}
-          onChangeText={(search) => {
-            setSearch(search);
-          }}
+          onChangeText={setSearch}
         />
         <FlatGrid
           itemDimension={130}
@@ -52,7 +50,7 @@ export function ProductList() {
           renderItem={({ item }) => {
             if (item) {
               return (
-                <View style={[styles.itemContainer]}>
+                <TouchableOpacity onPress={() => navigation.navigate('Details', { id: item.id })}>
                   <ImageBackground
                     source={{ uri: item.imgUrl }}
                     resizeMode="cover"
@@ -62,13 +60,8 @@ export function ProductList() {
                     <Text style={styles.itemSecondary}>
                       {item.price ? `${item.price} €` : 'Precio no disponible'}
                     </Text>
-                    <Button
-                      onPress={() => navigation.navigate('Details', { id: item.id })}
-                      title={'Ver más'}
-                      style={styles.button}
-                    />
                   </ImageBackground>
-                </View>
+                </TouchableOpacity>
               );
             }
           }}
@@ -92,11 +85,6 @@ const styles = StyleSheet.create({
     flex: 1,
     textShadowColor: 'rgba(0, 0, 0, 1)',
     textShadowRadius: 10,
-  },
-  itemContainer: {
-    borderRadius: 5,
-    padding: 10,
-    height: 150,
   },
   itemPrimary: {
     fontSize: 16,

@@ -1,6 +1,8 @@
 import { StyleSheet, View, Text } from 'react-native';
+import { useCookies } from 'react-cookie';
 
-export function Header({ items, page, navigation }) {
+export function Header({ page, navigation }) {
+  const [{ items }] = useCookies(['items']);
   const breadcrumb = { home: 'Home', details: 'Home > Details' };
   return (
     <View style={styles.container}>
@@ -14,7 +16,7 @@ export function Header({ items, page, navigation }) {
         </Col>
         <Col numRows={2}>
           <View style={styles.cartItems}>
-            <Text>Added in cart: {items}</Text>
+            <Text>Added in cart: {items || 0}</Text>
           </View>
         </Col>
       </Row>
