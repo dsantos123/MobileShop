@@ -1,6 +1,6 @@
 import { StyleSheet, View } from 'react-native';
 import { useCookies } from 'react-cookie';
-import { useRoute } from '@react-navigation/native';
+import { useRoute, useNavigation } from '@react-navigation/native';
 import { Header } from '../../common/components/Header/HeaderPageView';
 import { getProductDetails } from '../../common/apis/ShopApi';
 import { useEffect, useState, useRef } from 'react';
@@ -8,8 +8,10 @@ import { Image } from 'react-native-elements';
 import { ProductDescription } from './ProductDescription/ProductDescriptionPageView';
 import { ProductActions } from './ProductActions/ProductActionsPageView';
 export function ProductDetails() {
+  const [addToCartResponse, setAddToCartResponse] = useState();
   const [, setCookie] = useCookies(['items']);
   const route = useRoute();
+  const navigation = useNavigation();
   const [productDetails, setProductDetails] = useState({});
   const detailsToShow = [
     { Marca: 'brand' },
@@ -34,7 +36,6 @@ export function ProductDetails() {
     colorCode: undefined,
     storageCode: undefined,
   });
-  const [addToCartResponse, setAddToCartResponse] = useState();
 
   useEffect(() => {
     getProductDetails({ id: route.params.id, setResponse: setProductDetails });

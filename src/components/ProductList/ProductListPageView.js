@@ -6,10 +6,10 @@ import { Button, SearchBar } from 'react-native-elements';
 import { FlatGrid } from 'react-native-super-grid';
 import { getProducts } from '../../common/apis/ShopApi';
 export function ProductList() {
-  const navigation = useNavigation();
   const [products, setProducts] = useState([]);
   const [productsOrdered, setProductsOrdered] = useState([]);
   const [search, setSearch] = useState('');
+  const navigation = useNavigation();
   useEffect(() => {
     getProducts({ setResponse: setProducts });
   }, []);
